@@ -410,7 +410,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- **Your Name** - *Initial work*
+- SAJJAD - *Initial work*
 
 ---
 
@@ -422,13 +422,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 📞 Contact
 
-For questions or suggestions, please open an issue or contact:
-- Email: your.email@example.com
-- GitHub: [@yourusername](https://github.com/yourusername)
-
----
 
 ## 🔄 Version History
 
@@ -440,4 +434,4 @@ For questions or suggestions, please open an issue or contact:
 
 ---
 
-**⭐ If you find this project useful, please consider giving it a star!**
+
