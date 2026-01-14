@@ -6,50 +6,54 @@ This project implements and analyzes second, third, and fourth-order Runge-Kutta
 
 ## **Implementation Details**
 
-### **Mathematical Formulation**
+Mathematical Formulation
 The project solves the test problem:
-\[
-\frac{dy}{dx} = y, \quad y(0) = 1, \quad x \in [0, 1]
-\]
-with exact solution: \( y(x) = e^x \).
+dydx=y,y(0)=1,x∈[0,1]\frac{dy}{dx} = y, \quad y(0) = 1, \quad x \in [0, 1]dxdy​=y,y(0)=1,x∈[0,1]
+with exact solution: y(x)=exy(x) = e^x
+y(x)=ex.
 
-### **Methods Implemented**
 
-#### **1. Second-Order Runge-Kutta (RK2/Midpoint Method)**
-\[
-\begin{aligned}
-k_1 &= h f(x_n, y_n) \\
-k_2 &= h f(x_n + \frac{h}{2}, y_n + \frac{k_1}{2}) \\
+Methods Implemented
+1. Second-Order Runge-Kutta (RK2/Midpoint Method)
+$$\begin{aligned}
+k_1 &= h f(x_n, y_n) \
+k_2 &= h f\left(x_n + \frac{h}{2}, y_n + \frac{k_1}{2}\right) \
 y_{n+1} &= y_n + k_2
-\end{aligned}
-\]
-- Order of accuracy: \( O(h^2) \)
-- Global truncation error: \( O(h^2) \)
+\end{aligned}$$
 
-#### **2. Third-Order Runge-Kutta (RK3)**
-\[
-\begin{aligned}
-k_1 &= h f(x_n, y_n) \\
-k_2 &= h f(x_n + \frac{h}{2}, y_n + \frac{k_1}{2}) \\
-k_3 &= h f(x_n + h, y_n - k_1 + 2k_2) \\
+Order of accuracy: O(h2)O(h^2)
+O(h2)
+Global truncation error: O(h2)O(h^2)
+O(h2)
+
+
+2. Third-Order Runge-Kutta (RK3)
+$$\begin{aligned}
+k_1 &= h f(x_n, y_n) \
+k_2 &= h f\left(x_n + \frac{h}{2}, y_n + \frac{k_1}{2}\right) \
+k_3 &= h f(x_n + h, y_n - k_1 + 2k_2) \
 y_{n+1} &= y_n + \frac{1}{6}(k_1 + 4k_2 + k_3)
-\end{aligned}
-\]
-- Order of accuracy: \( O(h^3) \)
-- Global truncation error: \( O(h^3) \)
+\end{aligned}$$
 
-#### **3. Fourth-Order Runge-Kutta (RK4/Classical)**
-\[
-\begin{aligned}
-k_1 &= h f(x_n, y_n) \\
-k_2 &= h f(x_n + \frac{h}{2}, y_n + \frac{k_1}{2}) \\
-k_3 &= h f(x_n + \frac{h}{2}, y_n + \frac{k_2}{2}) \\
-k_4 &= h f(x_n + h, y_n + k_3) \\
+Order of accuracy: O(h3)O(h^3)
+O(h3)
+Global truncation error: O(h3)O(h^3)
+O(h3)
+
+
+3. Fourth-Order Runge-Kutta (RK4/Classical)
+$$\begin{aligned}
+k_1 &= h f(x_n, y_n) \
+k_2 &= h f\left(x_n + \frac{h}{2}, y_n + \frac{k_1}{2}\right) \
+k_3 &= h f\left(x_n + \frac{h}{2}, y_n + \frac{k_2}{2}\right) \
+k_4 &= h f(x_n + h, y_n + k_3) \
 y_{n+1} &= y_n + \frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4)
-\end{aligned}
-\]
-- Order of accuracy: \( O(h^4) \)
-- Global truncation error: \( O(h^4) \)
+\end{aligned}$$
+
+Order of accuracy: O(h4)O(h^4)
+O(h4)
+Global truncation error: O(h4)O(h^4)
+O(h4)
 
 ## **Error Analysis**
 
