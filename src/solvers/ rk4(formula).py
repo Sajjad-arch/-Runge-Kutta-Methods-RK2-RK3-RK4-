@@ -1,6 +1,4 @@
-Author: Member 7
-Role: RK4 method implementation
-"""
+
 
 def rk4_step(f, x, y, h):
     k1 = f(x, y)
