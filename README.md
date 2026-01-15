@@ -1,219 +1,129 @@
 
-# **Runge-Kutta Methods for Numerical Solution of Ordinary Differential Equations**
+============================================================
+Runge-Kutta Methods – Complete Single-File Implementation
+RK2, RK3, RK4 + Error Analysis + Convergence Plot
+============================================================
 
-## **Project Overview**
-This project implements and analyzes second, third, and fourth-order Runge-Kutta methods for solving initial value problems of the form dy/dx = f(x, y), y(x₀) = y₀. The implementation includes comprehensive error analysis and convergence studies.
-
-## **Implementation Details**
-
-Mathematical Formulation
-The project solves the test problem:
-dydx=y,y(0)=1,x∈[0,1]\frac{dy}{dx} = y, \quad y(0) = 1, \quad x \in [0, 1]dxdy​=y,y(0)=1,x∈[0,1]
-with exact solution: y(x)=exy(x) = e^x
-y(x)=ex.
-
-
-Methods Implemented
-1. Second-Order Runge-Kutta (RK2/Midpoint Method)
-$$\begin{aligned}
-k_1 &= h f(x_n, y_n) \
-k_2 &= h f\left(x_n + \frac{h}{2}, y_n + \frac{k_1}{2}\right) \
-y_{n+1} &= y_n + k_2
-\end{aligned}$$
-
-Order of accuracy: O(h2)O(h^2)
-O(h2)
-Global truncation error: O(h2)O(h^2)
-O(h2)
-
-
-2. Third-Order Runge-Kutta (RK3)
-$$\begin{aligned}
-k_1 &= h f(x_n, y_n) \
-k_2 &= h f\left(x_n + \frac{h}{2}, y_n + \frac{k_1}{2}\right) \
-k_3 &= h f(x_n + h, y_n - k_1 + 2k_2) \
-y_{n+1} &= y_n + \frac{1}{6}(k_1 + 4k_2 + k_3)
-\end{aligned}$$
-
-Order of accuracy: O(h3)O(h^3)
-O(h3)
-Global truncation error: O(h3)O(h^3)
-O(h3)
-
-
-3. Fourth-Order Runge-Kutta (RK4/Classical)
-$$\begin{aligned}
-k_1 &= h f(x_n, y_n) \
-k_2 &= h f\left(x_n + \frac{h}{2}, y_n + \frac{k_1}{2}\right) \
-k_3 &= h f\left(x_n + \frac{h}{2}, y_n + \frac{k_2}{2}\right) \
-k_4 &= h f(x_n + h, y_n + k_3) \
-y_{n+1} &= y_n + \frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4)
-\end{aligned}$$
-
-Order of accuracy: O(h4)O(h^4)
-O(h4)
-Global truncation error: O(h4)O(h^4)
-O(h4)
-
-## **Error Analysis**
-
-### **Global Error Calculation**
-Global error at \( x = 1 \) is computed as:
-\[
-E(h) = |y_{\text{numerical}}(1) - y_{\text{exact}}(1)|
-\]
-
-### **Convergence Rate Calculation**
-The convergence rate \( p \) is determined from:
-\[
-p = \frac{\log(E(h_1)/E(h_2))}{\log(h_1/h_2)}
-\]
-where \( E(h) \) is the global error for step size \( h \).
-
-## **Results**
-
-### **Error Comparison**
-| Step Size (h) | RK2 Error | RK3 Error | RK4 Error |
-|--------------|-----------|-----------|-----------|
-| 0.5          | 2.39×10⁻² | 4.26×10⁻³ | 1.61×10⁻⁴ |
-| 0.2          | 3.19×10⁻³ | 2.01×10⁻⁴ | 6.69×10⁻⁶ |
-| 0.1          | 7.72×10⁻⁴ | 2.37×10⁻⁵ | 4.21×10⁻⁷ |
-| 0.05         | 1.91×10⁻⁴ | 2.92×10⁻⁶ | 2.64×10⁻⁸ |
-
-### **Convergence Rates**
-  - **RK2**: Experimental rate ≈ 1.98 (Theoretical: 2.00)
-  - **RK3**: Experimental rate ≈ 3.01 (Theoretical: 3.00)
-  - **RK4**: Experimental rate ≈ 3.98 (Theoretical: 4.00)
-
-## **Code Architecture**
-
-### **File Structure**
-```
-src/
-├── main.py                    # Main driver program
-├── solver.py                  # Unified solver interface
-├── problems/
-│   └── test_problem.py       # Test ODE definitions
-├── solvers/
-│   ├── rk2.py                # RK2 implementation
-│   ├── rk3.py                # RK3 implementation
-│   └── rk4.py                # RK4 implementation
-├── error_analysis/
-│   ├── global_error.py       # Error computation
-│   └── convergence_rate.py   # Rate calculation
-├── visualization/
-│   ├── convergence_plot.py   # Log-log convergence plots
-│   └── solution_plot.py      # Solution comparison plots
-└── validation/
-    └── unit_tests.py         # Validation tests
-```
-
-### **Key Functions**
-
-#### **Main Solver Interface (`solver.py`)**
 ```python
-def solve_ode(method, f, x0, y0, x_end, h):
-    """
-    Unified interface for all Runge-Kutta methods
-    """
-```
+import numpy as np
+import matplotlib.pyplot as plt
 
-#### **Error Analysis (`error_analysis/global_error.py`)**
-```python
-def calculate_global_error(f, exact, x0, y0, x_end, h, method):
-    """
-    Compute global error for specified method and step size
-    """
-```
+# ------------------------------------------------------------
+# Test Problem Definition
+# dy/dx = y , y(0) = 1 , exact solution y = exp(x)
+# ------------------------------------------------------------
 
-#### **Visualization (`visualization/convergence_plot.py`)**
-```python
-def plot_convergence(h_values, errors, save_path):
-    """
-    Generate log-log convergence plot
-    """
-```
+def f(x, y):
+    return y
 
-## **Technical Specifications**
+def exact_solution(x):
+    return np.exp(x)
 
-### **Dependencies**
-- Python 3.8+
-- NumPy 1.24+ (numerical computations)
-- Matplotlib 3.7+ (plotting)
+# ------------------------------------------------------------
+# Runge-Kutta Methods
+# ------------------------------------------------------------
 
-### **Installation**
-```bash
-pip install numpy matplotlib
-```
+def rk2(f, x0, y0, x_end, h):
+    x = x0
+    y = y0
+    while x < x_end:
+        k1 = h * f(x, y)
+        k2 = h * f(x + h / 2, y + k1 / 2)
+        y += k2
+        x += h
+    return y
 
-### **Execution**
-```bash
-# Run complete analysis
-python src/main.py
+def rk3(f, x0, y0, x_end, h):
+    x = x0
+    y = y0
+    while x < x_end:
+        k1 = h * f(x, y)
+        k2 = h * f(x + h / 2, y + k1 / 2)
+        k3 = h * f(x + h, y - k1 + 2 * k2)
+        y += (k1 + 4 * k2 + k3) / 6
+        x += h
+    return y
 
-# Generate specific plots
-python src/visualization/convergence_plot.py
-```
+def rk4(f, x0, y0, x_end, h):
+    x = x0
+    y = y0
+    while x < x_end:
+        k1 = h * f(x, y)
+        k2 = h * f(x + h / 2, y + k1 / 2)
+        k3 = h * f(x + h / 2, y + k2 / 2)
+        k4 = h * f(x + h, y + k3)
+        y += (k1 + 2 * k2 + 2 * k3 + k4) / 6
+        x += h
+    return y
 
-## **Performance Metrics**
+# ------------------------------------------------------------
+# Global Error Calculation
+# ------------------------------------------------------------
 
-### **Accuracy Comparison**
-- **RK2**: Suitable for problems with moderate accuracy requirements
-- **RK3**: Balanced accuracy and computational cost
-- **RK4**: Recommended for high-accuracy applications
+def global_error(method, h):
+    y_num = method(f, 0.0, 1.0, 1.0, h)
+    y_exact = exact_solution(1.0)
+    return abs(y_num - y_exact)
 
-### **Computational Efficiency**
-- RK4 requires 4 function evaluations per step
-- RK3 requires 3 function evaluations per step
-- RK2 requires 2 function evaluations per step
+# ------------------------------------------------------------
+# Convergence Rate Calculation
+# ------------------------------------------------------------
 
-## **Validation**
+def convergence_rate(e1, e2, h1, h2):
+    return np.log(e1 / e2) / np.log(h1 / h2)
 
-### **Unit Tests**
-- Verify method implementations against known solutions
-- Confirm convergence rates match theoretical expectations
-- Test edge cases and boundary conditions
+# ------------------------------------------------------------
+# Main Execution
+# ------------------------------------------------------------
 
-### **Test Coverage**
-- Function evaluation correctness
-- Step size adaptation
-- Error computation accuracy
-- Plot generation functionality
+h_values = [0.5, 0.2, 0.1, 0.05]
 
-## **Applications**
+rk2_errors = []
+rk3_errors = []
+rk4_errors = []
 
-### **Suitable Problems**
-- Non-stiff ordinary differential equations
-- Initial value problems with smooth solutions
-- Problems requiring moderate to high accuracy
+for h in h_values:
+    rk2_errors.append(global_error(rk2, h))
+    rk3_errors.append(global_error(rk3, h))
+    rk4_errors.append(global_error(rk4, h))
 
-### **Limitations**
-- Not recommended for stiff ODEs
-- Fixed step size implementation
-- Accuracy depends on step size selection
+# ------------------------------------------------------------
+# Print Error Table
+# ------------------------------------------------------------
 
-## **Conclusion**
+print("Step Size | RK2 Error | RK3 Error | RK4 Error")
+print("---------------------------------------------")
+for i in range(len(h_values)):
+    print(f"{h_values[i]:<9} | {rk2_errors[i]:.3e} | {rk3_errors[i]:.3e} | {rk4_errors[i]:.3e}")
 
-This implementation demonstrates that:
-1. Higher-order Runge-Kutta methods provide greater accuracy for equivalent computational effort
-2. Experimental convergence rates match theoretical predictions
-3. RK4 offers the best balance of accuracy and efficiency for non-stiff problems
+# ------------------------------------------------------------
+# Convergence Rates
+# ------------------------------------------------------------
 
-## **References**
+rk2_rate = convergence_rate(rk2_errors[1], rk2_errors[2], h_values[1], h_values[2])
+rk3_rate = convergence_rate(rk3_errors[1], rk3_errors[2], h_values[1], h_values[2])
+rk4_rate = convergence_rate(rk4_errors[1], rk4_errors[2], h_values[1], h_values[2])
 
-1. Burden, R. L., & Faires, J. D. (2010). *Numerical Analysis* (9th ed.). Cengage Learning.
-2. Chapra, S. C., & Canale, R. P. (2015). *Numerical Methods for Engineers* (7th ed.). McGraw-Hill.
-3. Butcher, J. C. (2016). *Numerical Methods for Ordinary Differential Equations* (3rd ed.). Wiley.
+print("\nConvergence Rates")
+print("-----------------")
+print(f"RK2 ≈ {rk2_rate:.2f}")
+print(f"RK3 ≈ {rk3_rate:.2f}")
+print(f"RK4 ≈ {rk4_rate:.2f}")
 
-## **Project Information**
+# ------------------------------------------------------------
+# Convergence Plot (Log-Log)
+# ------------------------------------------------------------
 
-- **Course**: CSE261 Numerical Methods
-- **Institution**: Southeast University, Bangladesh
-- **Instructor**: Tashreef Muhammad
-- **Submission**: C2 Group Assignment
-- **Date**: January 14, 2026
-
----
+plt.figure()
+plt.loglog(h_values, rk2_errors, marker='o', label='RK2')
+plt.loglog(h_values, rk3_errors, marker='s', label='RK3')
+plt.loglog(h_values, rk4_errors, marker='^', label='RK4')
+plt.xlabel("Step Size (h)")
+plt.ylabel("Global Error")
+plt.title("Runge-Kutta Convergence Comparison")
+plt.legend()
+plt.grid(True, which="both")
+plt.show()
 
 
 
